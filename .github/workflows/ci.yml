@@ -1,0 +1,62 @@
+name: Deploy to GitHub pages
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+          fetch-depth: 0 # Fetch all history
+      - name: Replace files in quartz directory
+        run: |
+          cp quartz.config.ts quartz.layout.ts quartz
+          rm -r quartz/content
+          cp -r content quartz/content
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+          cache-dependency-path: quartz/package-lock.json
+      - name: Install Node.js dependencies
+        working-directory: quartz
+        run: npm ci --omit=dev
+      - name: Build website
+        run: npx quartz build
+        working-directory: quartz
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: quartz/public
+
+  # Deployment job
+  deploy:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/main'}}
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
