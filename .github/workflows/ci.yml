@@ -22,11 +22,9 @@ jobs:
         with:
           submodules: 'true'
           fetch-depth: 0 # Fetch all history
-      - name: Replace files in quartz directory
+      - name: Apply configurations
         run: |
           cp quartz.config.ts quartz.layout.ts quartz
-          rm -r quartz/content
-          cp -r content quartz/content
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -37,12 +35,12 @@ jobs:
         working-directory: quartz
         run: npm ci --omit=dev
       - name: Build website
-        run: npx quartz build
+        run: npx quartz build --directory ../content --output ../public
         working-directory: quartz
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: quartz/public
+          path: public
 
   # Deployment job
   deploy:
