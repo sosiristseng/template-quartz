@@ -1,0 +1,10 @@
+# https://kodiakhq.com/docs/recipes
+version = 1
+
+[merge]
+method = "squash"
+
+# PR sync with main
+[update]
+always = true # default: false
+require_automerge_label = false # default: true
