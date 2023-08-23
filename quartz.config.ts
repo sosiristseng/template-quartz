@@ -7,7 +7,7 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: {
-      provider: "plausible",
+      provider: null,
     },
     baseUrl: "sosiristseng.github.io/deploy-quartz/",
     ignorePatterns: ["private", "templates"],
