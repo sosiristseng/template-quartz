@@ -9,8 +9,9 @@ const config: QuartzConfig = {
     analytics: {
       provider: null,
     },
-    baseUrl: "sosiristseng.github.io/deploy-quartz/",
+    baseUrl: "sosiristseng.github.io/template-quartz",
     ignorePatterns: ["private", "templates"],
+    defaultDateType: "created",
     theme: {
       typography: {
         header: "Schibsted Grotesk",
