@@ -6,9 +6,7 @@ const config: QuartzConfig = {
     pageTitle: "🪴 Quartz 4.0",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: null,
-    },
+    analytics: null,
     baseUrl: "sosiristseng.github.io/template-quartz",
     ignorePatterns: ["private", "templates"],
     defaultDateType: "created",
