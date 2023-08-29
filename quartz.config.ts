@@ -8,7 +8,7 @@ const config: QuartzConfig = {
     enablePopovers: true,
     analytics: null,
     baseUrl: "sosiristseng.github.io/template-quartz",
-    ignorePatterns: ["private", "templates"],
+    ignorePatterns: ["private", "_templates", ".obsidian"],
     defaultDateType: "created",
     theme: {
       typography: {
