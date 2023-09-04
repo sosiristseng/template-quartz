@@ -1,0 +1,47 @@
+name: Check markdown links
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *' # Every month
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/**'
+      - '.lycheeignore'
+      - '.github/workflows/lychee.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    env:
+      DIR: 'content'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Restore lychee cache
+        id: restore-cache
+        uses: actions/cache/restore@v3
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+      - name: Lychee Checker
+        uses: lycheeverse/lychee-action@v1.8.0
+        id: lychee
+        with:
+          fail: true
+          args: '--accept 200,204,429 --verbose --no-progress --cache --max-cache-age 1d ${{ env.DIR }}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Save lychee cache
+        uses: actions/cache/save@v3
+        if: always()
+        with:
+          path: .lycheecache
+          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
