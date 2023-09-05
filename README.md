@@ -10,9 +10,9 @@ This template repository
 
 [Quartz]: https://github.com/jackyzha0/quartz
 
-## How to use (without using Quartz locally)
+## Easiest way to use (without using Quartz locally)
 
-Click the big green `Use this template` button to create a repository, and then, clone the created repository using GitHub Desktop or `git clone` command
+Click the big green `Use this template` button to create a repository. Clone the created repository using GitHub Desktop or `git clone` command:
 
 ```bash
 git clone https://github.com/<username>/<reponame>.git
@@ -23,7 +23,9 @@ Open the `content` folder in Obsidian, edit/add notes and use GitHub Desktop or 
 > [!IMPORTANT]
 > You need to enable GitHub pages in your repository settings -> pages -> selecting `GitHub actions` as the source.
 
-## How to use (as well as Quartz)
+## How to use Quartz locally
+
+Click the big green `Use this template` button to create a repository.
 
 Since this repository has [Quartz][] as a submodule, if you want to use quartz to build/preview the website, you need to clone both the repository and the submodule:
 
@@ -43,3 +45,11 @@ You can open the `content` folder in Obsidian (or other editors) to edit/add you
 
 > [!IMPORTANT]
 > You need to enable GitHub pages in your repository settings -> pages -> selecting `GitHub actions` as the source.
+
+## Cloudflare pages
+
+[Cloudflare pages](https://dash.cloudflare.com/) build configurations:
+
+- Framework preset: `None`
+- Build command : `cp quartz.config.ts quartz.layout.ts quartz/ && cd quartz && npm ci && npx quartz build --directory ../content`
+- Build output directory: `quartz/public`
