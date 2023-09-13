@@ -7,5 +7,4 @@
     "git-submodules": {
         "enabled": true
     },
-    "automergeStrategy": "fast-forward"
 }
