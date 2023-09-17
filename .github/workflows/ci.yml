@@ -25,6 +25,7 @@ jobs:
       - name: Apply configurations
         run: |
           cp quartz.config.ts quartz.layout.ts quartz
+          cp -R content quartz/content
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -35,12 +36,12 @@ jobs:
         working-directory: quartz
         run: npm ci --omit=dev
       - name: Build website
-        run: npx quartz build --directory ../content --output ../public
+        run: npx quartz build
         working-directory: quartz
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: public
+          path: quartz/public
 
   # Deployment job
   deploy:
