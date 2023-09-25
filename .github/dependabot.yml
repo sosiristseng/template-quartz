@@ -2,12 +2,14 @@ version: 2
 updates:
   - package-ecosystem: "gitsubmodule"
     directory: "/"
+    open-pull-requests-limit: 1
     schedule:
       interval: "daily"
     labels:
       - "automerge"
   - package-ecosystem: "github-actions"
     directory: "/"
+    open-pull-requests-limit: 1
     schedule:
       interval: "daily"
     labels:
