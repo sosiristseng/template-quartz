@@ -6,7 +6,3 @@ method = "squash"
   [merge.message]
   title = "pull_request_title"
   body  = "pull_request_body"
-  [merge.automerge_dependencies]
-  # auto merge all PRs opened by "dependabot" that are "minor" or "patch" version upgrades. "major" version upgrades will be ignored.
-  versions = ["minor", "patch"]
-  usernames = ["dependabot"]
