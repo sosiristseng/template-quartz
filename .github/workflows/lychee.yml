@@ -19,6 +19,8 @@ concurrency:
 jobs:
   linkcheck:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write # required for peter-evans/create-issue-from-file
     env:
       DIR: 'content'
     steps:
@@ -35,7 +37,7 @@ jobs:
         uses: lycheeverse/lychee-action@v2.0.2
         id: lychee
         with:
-          fail: true
+          fail: false
           args: '--accept 200,204,429 --verbose --no-progress --cache --max-cache-age 1d ${{ env.DIR }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,3 +47,10 @@ jobs:
         with:
           path: .lycheecache
           key: ${{ steps.restore-cache.outputs.cache-primary-key }}
+      - name: Create Issue From File
+        if: env.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md
+          labels: 'automated issue'
