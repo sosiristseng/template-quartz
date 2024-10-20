@@ -37,7 +37,6 @@ jobs:
         with:
           jobSummary: true
           format: markdown
-          output: ./lychee/out.md
           args: --accept '200,204,429' --verbose --no-progress --cache ${{ env.DIR }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
