@@ -23,7 +23,7 @@ jobs:
       issues: write # required for peter-evans/create-issue-from-file
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Restore lychee cache
         id: restore-cache
         uses: actions/cache/restore@v4
