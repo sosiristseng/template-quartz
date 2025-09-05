@@ -39,7 +39,7 @@ jobs:
         run: npx quartz build
         working-directory: quartz
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: quartz/public
 
