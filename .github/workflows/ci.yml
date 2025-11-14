@@ -22,10 +22,10 @@ jobs:
         with:
           submodules: 'true'
           fetch-depth: 0 # Fetch all history
-      - name: Apply configurations
+      - name: Copy documents and configurations
         run: |
-          cp quartz.config.ts quartz.layout.ts quartz
-          cp -rf content/* quartz/content/
+          cp -v quartz.config.ts quartz.layout.ts quartz
+          cp -rvf content/* quartz/content/
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
