@@ -4,36 +4,28 @@
 
 This template repository
 
-- uses [Quartz][] by Jacky Zhao as a git submodule to catch up its rapid development.
+- wraps [Quartz][] by Jacky Zhao into a git submodule to integrate with dependabot updates.
 - builds the website from the notes and publishes to GitHub pages by GitHub actions.
-- is [Obsidian](https://obsidian.md/)-friendly (thanks to [Quartz][]). Just open the `content` folder in Obsidian.
+- is [Obsidian](https://obsidian.md/)-friendly (thanks to [Quartz][]). Open the `content` folder as an Obsidian vault.
 
 [Quartz]: https://github.com/jackyzha0/quartz
 
-## Easiest way to use (without using Quartz locally)
+## How-to
 
-Click the big green `Use this template` button to create a repository. Clone the created repository using GitHub Desktop or `git clone` command:
+Click the big green `Use this template` button to create a repository. Clone the created repository using GitHub Desktop or the `git clone` command:
 
 ```bash
-git clone https://github.com/<username>/<reponame>.git
+git clone --recursive https://github.com/$USER/$REPO.git
 ```
 
-Open the `content` folder in Obsidian, edit/add notes and use GitHub Desktop or `git push` command to commit and push the changes to GitHub. GitHub actions will build and publish the website automatically.
+Open the `content` folder as an Obsidian vault, edit/add notes and use GitHub Desktop or `git push` command to commit and push the changes to GitHub. GitHub actions will build and publish the website automatically.
 
 > [!IMPORTANT]
 > You need to enable GitHub pages in your repository settings -> pages -> selecting `GitHub actions` as the source.
 
-## How to use Quartz locally
+## Preview your Quartz website
 
-Click the big green `Use this template` button to create a repository.
-
-Since this repository has [Quartz][] as a submodule, if you want to use quartz to build/preview the website, you need to clone both the repository and the submodule:
-
-```bash
-git clone --recursive https://github.com/<username>/<reponame>.git
-```
-
-To run Quartz in preview mode (See [Building your Quartz](https://quartz.jzhao.xyz/build) for details)
+(See [Building your Quartz](https://quartz.jzhao.xyz/build) for details)
 
 ```bash
 cd quartz
@@ -46,7 +38,7 @@ You can open the `content` folder in Obsidian (or other editors) to edit/add you
 > [!IMPORTANT]
 > You need to enable GitHub pages in your repository settings -> pages -> selecting `GitHub actions` as the source.
 
-## Cloudflare pages
+## Cloudflare pages settings
 
 [Cloudflare pages](https://dash.cloudflare.com/) build configurations:
 
