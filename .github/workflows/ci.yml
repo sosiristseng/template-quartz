@@ -24,6 +24,14 @@ jobs:
           fetch-depth: 0 # Fetch all history
       - name: Shallow clone submodules
         run: git submodule update --init --recursive --depth=1
+      - name: Cache plugins
+        id: cache-plugins
+        uses: actions/cache@v6
+        with:
+          path: './runtime/.quartz/plugins'
+          key: ${{ runner.os }}-quartz-plugins-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-quartz-plugins-
       - name: Copy documents and settings to runtime
         run: |
           cp -vr quartz.config.yaml content/ runtime/
