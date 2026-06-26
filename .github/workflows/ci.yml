@@ -20,28 +20,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          submodules: 'true'
+          # submodules: true # Fetch quartz (true OR recursive)
           fetch-depth: 0 # Fetch all history
-      - name: Copy documents and configurations
+      - name: Shallow clone submodules
+        run: git submodule update --init --recursive --depth=1
+      - name: Copy documents and settings to runtime
         run: |
-          cp -v quartz.config.ts quartz.layout.ts quartz
-          cp -rvf content/* quartz/content/
+          cp -vr content/ runtime/content/
+          cp -v quartz.config.yaml runtime/
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 'lts/*'
-          cache: npm
-          cache-dependency-path: quartz/package-lock.json
-      - name: Install Node.js dependencies
-        working-directory: quartz
-        run: npm ci --omit=dev
+          node-version-file: 'runtime/.node-version'
+          cache-dependency-path: 'runtime/package-lock.json'
+          cache: 'npm'
       - name: Build website
-        run: npx quartz build
-        working-directory: quartz
+        run: 	cd runtime && npm ci && npx quartz plugin install --from-config && npx quartz build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: quartz/public
+          path: runtime/public/
 
   # Deployment job
   deploy:
@@ -51,10 +49,11 @@ jobs:
     permissions:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment originates from an appropriate source
+      actions: read     # to download an artifact uploaded by `actions/upload-pages-artifact@v3`
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
