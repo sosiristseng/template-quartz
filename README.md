@@ -1,12 +1,10 @@
-# Quartz v4 Template for GitHub pages
-
-THIS REPO IS DEPRECATED, PLEASE [UPGRADE TO QUARTZ V5](https://quartz.jzhao.xyz/getting-started/whats-new).
+# Quartz v5 Template for GitHub pages
 
 [Quartz][] is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
 
 This template repository
 
-- wraps [Quartz][] by Jacky Zhao into a git submodule to integrate with dependabot updates.
+- wraps [Quartz][] by Jacky Zhao into a git submodule for automatic updates by dependabot.
 - builds the website from the notes and publishes to GitHub pages by GitHub actions.
 - is [Obsidian](https://obsidian.md/)-friendly (thanks to [Quartz][]). Open the `content` folder as an Obsidian vault.
 
@@ -30,8 +28,10 @@ Open the `content` folder as an Obsidian vault, edit/add notes and use GitHub De
 (See [Building your Quartz](https://quartz.jzhao.xyz/build) for details)
 
 ```bash
-cd quartz
-npm i
+cp quartz.config.yaml runtime/
+cd runtime
+npm ci
+npx quartz plugin install --from-config
 npx quartz build -d ../content --serve
 ```
 
@@ -45,5 +45,5 @@ You can open the `content` folder in Obsidian (or other editors) to edit/add you
 [Cloudflare pages](https://dash.cloudflare.com/) build configurations:
 
 - Framework preset: `None`
-- Build command : `cp quartz.config.ts quartz.layout.ts quartz/ && cd quartz && npm ci && npx quartz build --directory ../content`
+- Build command : `cp quartz.config.yaml runtime/ && cd runtime && npm ci && npx quartz plugin install --from-config && npx quartz build --directory ../content`
 - Build output directory: `quartz/public`

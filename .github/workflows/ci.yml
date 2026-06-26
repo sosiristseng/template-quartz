@@ -24,24 +24,22 @@ jobs:
           fetch-depth: 0 # Fetch all history
       - name: Shallow clone submodules
         run: git submodule update --init --recursive --depth=1
-      - name: Copy quartz runtime to the working dir
+      - name: Copy documents and settings to runtime
         run: |
-          cp -vr runtime/quartz runtime/.node-version runtime/*.{ts,json,yaml} .
+          cp -vr content/ runtime/content/
+          cp -v quartz.config.yaml runtime/
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version-file: '.node-version'
+          node-version-file: 'runtime/.node-version'
+          cache-dependency-path: 'runtime/package-lock.json'
           cache: 'npm'
-      - name: Install Node.js dependencies
-        run: npm ci
-      - name: Install plugins
-        run: npx quartz plugin install
       - name: Build website
-        run: 	npx quartz build
+        run: 	cd runtime && npm ci && npx quartz plugin install --from-config && npx quartz build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: public/
+          path: runtime/public/
 
   # Deployment job
   deploy:
