@@ -26,8 +26,7 @@ jobs:
         run: git submodule update --init --recursive --depth=1
       - name: Copy documents and settings to runtime
         run: |
-          cp -vr content/ runtime/content/
-          cp -v quartz.config.yaml runtime/
+          cp -vr quartz.config.yaml content/ runtime/
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
