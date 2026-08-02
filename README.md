@@ -35,10 +35,7 @@ npx quartz plugin install --from-config
 npx quartz build -d ../content --serve
 ```
 
-You can open the `content` folder in Obsidian (or other editors) to edit/add your notes. After that, use GitHub Desktop or `git push` command to commit and push the changes to GitHub. GitHub actions will build and publish the website automatically.
-
-> [!IMPORTANT]
-> You need to enable GitHub pages in your repository settings -> pages -> selecting `GitHub actions` as the source.
+You can open the `content` folder in Obsidian (or other editors) to edit/add your notes.
 
 ## Cloudflare pages settings
 

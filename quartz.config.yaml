@@ -99,6 +99,7 @@ plugins:
     order: 92
   - source: "@quartz-community/quartz-fonts"
     enabled: true
+  # https://github.com/saberzero1/quartz-themes
   - source: "@quartz-themes/core"
     enabled: false
     options:
@@ -207,7 +208,14 @@ plugins:
       position: footer
       priority: 50
   - source: "@quartz-community/recent-notes"
-    enabled: false
+    enabled: true
+    options:
+      title: "Recent notes"
+      limit: 3
+      showTags: true
+      hideTagPages: false
+      hideFolderPages: false
+      linkToMore: false
   - source: "@quartz-community/spacer"
     enabled: true
     options: {}
