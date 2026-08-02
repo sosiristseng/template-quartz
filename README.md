@@ -43,4 +43,4 @@ You can open the `content` folder in Obsidian (or other editors) to edit/add you
 
 - Framework preset: `None`
 - Build command : `cp -vr quartz.config.yaml content/ runtime/ && cd runtime && npm install && npx quartz plugin install --from-config && npx quartz build`
-- Build output directory: `quartz/public`
+- Build output directory: `runtime/public`
