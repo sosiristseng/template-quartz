@@ -42,5 +42,5 @@ You can open the `content` folder in Obsidian (or other editors) to edit/add you
 [Cloudflare pages](https://dash.cloudflare.com/) build configurations:
 
 - Framework preset: `None`
-- Build command : `cp -vr quartz.config.yaml content/ runtime/ && cd runtime && npm ci && npx quartz plugin install --from-config && npx quartz build`
+- Build command : `cp -vr quartz.config.yaml content/ runtime/ && cd runtime && npm install && npx quartz plugin install --from-config && npx quartz build`
 - Build output directory: `quartz/public`
