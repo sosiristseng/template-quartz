@@ -4,7 +4,7 @@
 
 This template repository
 
-- wraps [Quartz][] by Jacky Zhao into a git submodule for automatic updates by dependabot.
+- wraps [Quartz][] by Jacky Zhao into a git submodule, enabling automatic updates by dependabot.
 - builds the website from the notes and publishes to GitHub pages by GitHub actions.
 - is [Obsidian](https://obsidian.md/)-friendly (thanks to [Quartz][]). Open the `content` folder as an Obsidian vault.
 
