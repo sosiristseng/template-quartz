@@ -32,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-quartz-plugins-${{ hashFiles('quartz.config.yaml') }}
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Strip Protocol from URL
         id: clean_url
         run: |
