@@ -45,10 +45,12 @@ jobs:
 
           # Save it to the environment output
           echo "stripped_url=$CLEANED_URL" >> $GITHUB_OUTPUT
-      - name: Copy documents and settings to runtime
+      - name: Set baseurl
         run: |
           yq -i '.configuration.baseUrl = "${{ steps.clean_url.outputs.stripped_url }}"' quartz.config.yaml
-          cp -vr quartz.config.yaml content/ runtime/
+      - name: Copy the runtime over to root. Do not overwrite existing files.
+        run: |
+          cp -vr -n runtime/* .
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
