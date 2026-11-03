@@ -11,9 +11,3 @@ updates:
           - "*"
     labels:
       - "automerge"
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    labels:
-      - "automerge"

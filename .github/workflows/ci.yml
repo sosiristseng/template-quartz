@@ -20,16 +20,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          # submodules: true # Fetch quartz (true OR recursive)
-          fetch-depth: 0 # Fetch all history
-      - name: Shallow clone submodules
-        run: git submodule update --init --recursive --depth=1
-      - name: Cache plugins
-        id: cache-plugins
-        uses: actions/cache@v6
-        with:
-          path: './runtime/.quartz/plugins'
-          key: ${{ runner.os }}-quartz-plugins-${{ hashFiles('quartz.config.yaml') }}
+          fetch-depth: 0 # Fetch all history, so page dates come from commits
+          persist-credentials: false # the build never pushes
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
@@ -45,22 +37,22 @@ jobs:
 
           # Save it to the environment output
           echo "stripped_url=$CLEANED_URL" >> $GITHUB_OUTPUT
-      - name: Copy documents and settings to runtime
-        run: |
-          yq -i '.configuration.baseUrl = "${{ steps.clean_url.outputs.stripped_url }}"' quartz.config.yaml
-          cp -vr quartz.config.yaml content/ runtime/
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: 'runtime/.node-version'
-          cache-dependency-path: 'runtime/package-lock.json'
-          cache: 'npm'
+      - name: Autoset baseUrl
+        run: yq -i '.configuration.baseUrl = "${{ steps.clean_url.outputs.stripped_url }}"' quartz.config.yaml
+      - name: Read Quartz version
+        id: quartz_version
+        run: echo "sha=$(cat quartz.version)" >> "$GITHUB_OUTPUT"
       - name: Build website
-        run: 	cd runtime && npm ci && npx quartz plugin install --from-config && npx quartz build
+        id: quartz
+        uses: raven-wing/quartz-action@v0
+        with:
+          quartz-version: ${{ steps.quartz_version.outputs.sha }}
+          config: quartz.config.yaml
+          content-dir: content
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: runtime/public/
+          path: ${{ steps.quartz.outputs.output-dir }}
 
   # Deployment job
   deploy:
@@ -70,7 +62,7 @@ jobs:
     permissions:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment originates from an appropriate source
-      actions: read     # to download an artifact uploaded by `actions/upload-pages-artifact@v3`
+      actions: read # to download an artifact uploaded by `actions/upload-pages-artifact`
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

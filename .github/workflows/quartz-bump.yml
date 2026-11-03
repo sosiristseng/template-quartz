@@ -1,0 +1,50 @@
+name: Bump Quartz version
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Every Monday
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Read pinned version
+        id: current
+        run: echo "sha=$(cat quartz.version)" >> "$GITHUB_OUTPUT"
+      - name: Look up latest Quartz v5 commit
+        id: latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: echo "sha=$(gh api repos/jackyzha0/quartz/commits/v5 --jq .sha)" >> "$GITHUB_OUTPUT"
+      - name: Open bump pull request
+        if: steps.current.outputs.sha != steps.latest.outputs.sha
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CURRENT: ${{ steps.current.outputs.sha }}
+          LATEST: ${{ steps.latest.outputs.sha }}
+        run: |
+          branch="quartz-bump/${LATEST}"
+          git checkout -b "$branch"
+          echo "$LATEST" > quartz.version
+          git add quartz.version
+          git commit -m "Bump Quartz to ${LATEST}"
+          git push -u origin "$branch"
+          {
+            echo "Updates \`quartz.version\` from [$CURRENT](https://github.com/jackyzha0/quartz/commit/$CURRENT) to [$LATEST](https://github.com/jackyzha0/quartz/commit/$LATEST)."
+            echo
+            echo "The website build workflow on this pull request verifies the new version builds. Merge manually once it passes."
+          } > pr-body.md
+          gh pr create \
+            --title "Bump Quartz to $(printf %.7s "$LATEST")" \
+            --body-file pr-body.md
