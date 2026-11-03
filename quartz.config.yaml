@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./runtime/quartz/plugins/quartz-plugins.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jackyzha0/quartz/v5/quartz/plugins/quartz-plugins.schema.json
 configuration:
   pageTitle: Quartz 5
   pageTitleSuffix: ""
