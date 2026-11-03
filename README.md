@@ -4,18 +4,19 @@
 
 This template repository
 
-- wraps [Quartz][] by Jacky Zhao into a git submodule, enabling automatic updates by dependabot.
-- builds the website from the notes and publishes to GitHub pages by GitHub actions.
+- builds the website from the notes and publishes to GitHub pages by GitHub actions, using [quartz-action][] and a Quartz version pinned in `quartz.version`.
+- keeps the pinned Quartz fresh: a weekly workflow opens a pull request when a newer version is available.
 - is [Obsidian](https://obsidian.md/)-friendly (thanks to [Quartz][]). Open the `content` folder as an Obsidian vault.
 
 [Quartz]: https://github.com/jackyzha0/quartz
+[quartz-action]: https://raven-wing.github.io/quartz-action/
 
 ## How-to
 
 Click the big green `Use this template` button to create a repository. Clone the created repository using GitHub Desktop or the `git clone` command:
 
 ```bash
-git clone --recursive https://github.com/$USER/$REPO.git
+git clone https://github.com/$USER/$REPO.git
 ```
 
 Open the `content` folder as an Obsidian vault, edit/add notes and use GitHub Desktop or `git push` command to commit and push the changes to GitHub. GitHub actions will build and publish the website automatically.
@@ -23,26 +24,19 @@ Open the `content` folder as an Obsidian vault, edit/add notes and use GitHub De
 > [!IMPORTANT]
 > You need to enable GitHub pages in your repository settings -> pages -> selecting `GitHub actions` as the source.
 
+> [!NOTE]
+> If you cloned an older revision of this template, when Quartz was a git submodule, remove the leftover: `git submodule deinit -f runtime && git rm -f runtime && rm -rf .git/modules/runtime`.
+
 ## Preview your Quartz website
 
 (See [Building your Quartz](https://quartz.jzhao.xyz/build) for details)
 
 ```bash
-cp quartz.config.yaml runtime/
-cd runtime
-npm ci
-npx quartz plugin install --from-config
-npx quartz build -d ../content --serve
+./preview.sh
 ```
 
-You can open the `content` folder in Obsidian (or other editors) to edit/add your notes.
+The script checks out the pinned Quartz into `.quartz-preview/` (gitignored) and serves the site at `http://localhost:8080`. You can open the `content` folder in Obsidian (or other editors) to edit/add your notes while previewing.
 
-## Cloudflare pages settings
+## Updating the Quartz version
 
-[Cloudflare pages](https://dash.cloudflare.com/) build configurations:
-
-> This configuration applies to the legacy Pages workflow. I have yet to fit it into the new workflow with mandatory preview and deploy command.
-
-- Framework preset: `None`
-- Build command : `cp -vr quartz.config.yaml content/ runtime/ && cd runtime && npm install && npx quartz plugin install --from-config && npx quartz build`
-- Build output directory: `runtime/public`
+Every week a workflow checks [Quartz][] `v5` and opens a pull request updating `quartz.version` when it moved. The website build runs on that pull request; merge it manually once it passes. To update on your own schedule, edit the commit SHA in `quartz.version`.
